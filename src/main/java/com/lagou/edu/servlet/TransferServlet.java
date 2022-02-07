@@ -26,12 +26,16 @@ public class TransferServlet extends HttpServlet {
 //    private TransferService transferService = new TransferServiceImpl();
 //    private TransferService transferService = (TransferService) BeanFactory1.getBean("transferService");
 // 使用动态代理去创建service来增加事务控制
-    private TransferService transferService = (TransferService) ProxyFactorySelf.getInstance().getTransactionControl(BeanFactory1.getBean("transferService"));
+//    private TransferService transferService = (TransferService) ProxyFactorySelf.getInstance().getTransactionControl(BeanFactory1.getBean("transferService"));
     // 从工厂获取委托对象（委托对象是增强了事务控制的功能）
 
     // 首先从BeanFactory获取到proxyFactory代理工厂的实例化对象
 //    private ProxyFactory proxyFactory = (ProxyFactory) BeanFactory.getBean("proxyFactory");
 //    private TransferService transferService = (TransferService) proxyFactory.getJdkProxy(BeanFactory.getBean("transferService")) ;
+
+    // 从beanFactory中获取代理工厂实例化对象来增强事务控制
+    private ProxyFactorySelf proxyFactorySelf = (ProxyFactorySelf) BeanFactory1.getBean("proxyFactorySelf");
+    private TransferService transferService = (TransferService) proxyFactorySelf.getTransactionControl(BeanFactory1.getBean("transferService"));
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -9,28 +9,35 @@ import java.sql.SQLException;
  */
 public class TransactionManagerSelf {
 
-    private TransactionManagerSelf(){}
+//    private TransactionManagerSelf(){}
+//
+//    private static TransactionManagerSelf transactionManagerSelf = new TransactionManagerSelf();
+//
+//    public static TransactionManagerSelf getInstance(){
+//        return transactionManagerSelf;
+//    }
 
-    private static TransactionManagerSelf transactionManagerSelf = new TransactionManagerSelf();
+    // 使用自己写的IOC容器去获取ConnectionUtilsSelf实例化对象
+    private ConnectionUtilsSelf connectionUtilsSelf;
 
-    public static TransactionManagerSelf getInstance(){
-        return transactionManagerSelf;
+    public void setConnectionUtilsSelf(ConnectionUtilsSelf connectionUtilsSelf) {
+        this.connectionUtilsSelf = connectionUtilsSelf;
     }
 
     // 开启手动事务控制
     public void beginTransaction() throws SQLException {
-        ConnectionUtilsSelf.getConnectionUtilsSelf().getConnection().setAutoCommit(false);
+        connectionUtilsSelf.getConnection().setAutoCommit(false);
     }
 
 
     // 提交事务
     public void commit() throws SQLException {
-        ConnectionUtilsSelf.getConnectionUtilsSelf().getConnection().commit();
+        connectionUtilsSelf.getConnection().commit();
     }
 
 
     // 回滚事务
     public void rollback() throws SQLException {
-        ConnectionUtilsSelf.getConnectionUtilsSelf().getConnection().rollback();
+        connectionUtilsSelf.getConnection().rollback();
     }
 }

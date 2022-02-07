@@ -9,13 +9,13 @@ import java.sql.SQLException;
 public class ConnectionUtilsSelf {
 
     // 单例模式 - 饿汉 保证每次获取的对象是同一个
-    private ConnectionUtilsSelf(){}
-
-    private static final ConnectionUtilsSelf connectionUtilsSelf = new ConnectionUtilsSelf();
-
-    public static ConnectionUtilsSelf getConnectionUtilsSelf(){
-        return connectionUtilsSelf;
-    }
+//    private ConnectionUtilsSelf(){}
+//
+//    private static final ConnectionUtilsSelf connectionUtilsSelf = new ConnectionUtilsSelf();
+//
+//    public static ConnectionUtilsSelf getConnectionUtilsSelf(){
+//        return connectionUtilsSelf;
+//    }
 
     private static final ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<>(); // 存储当前线程的连接
 

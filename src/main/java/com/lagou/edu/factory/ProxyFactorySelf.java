@@ -11,13 +11,20 @@ import java.lang.reflect.Proxy;
  */
 public class ProxyFactorySelf {
 
-    private static ProxyFactorySelf proxyFactorySelf = new ProxyFactorySelf();
+//    private static ProxyFactorySelf proxyFactorySelf = new ProxyFactorySelf();
+//
+//    private ProxyFactorySelf() {
+//    }
+//
+//    public static ProxyFactorySelf getInstance(){
+//        return proxyFactorySelf;
+//    }
 
-    private ProxyFactorySelf() {
-    }
+    // 使用自己写的IOC容器去获取TransactionManagerSelf实例化对象
+    private TransactionManagerSelf transactionManagerSelf;
 
-    public static ProxyFactorySelf getInstance(){
-        return proxyFactorySelf;
+    public void setTransactionManagerSelf(TransactionManagerSelf transactionManagerSelf) {
+        this.transactionManagerSelf = transactionManagerSelf;
     }
 
     /**
@@ -31,15 +38,15 @@ public class ProxyFactorySelf {
                 try {
                     // 获取事务控制管理类
                     // 开启事务控制
-                    TransactionManagerSelf.getInstance().beginTransaction();
+                    transactionManagerSelf.beginTransaction();
                     // 调用委托对象原有方法逻辑
                     result = method.invoke(object, args);
                     // 提交
-                    TransactionManagerSelf.getInstance().commit();
+                    transactionManagerSelf.commit();
                 }catch (Exception e){
                     e.printStackTrace();
                     // 出现异常 回滚
-                    TransactionManagerSelf.getInstance().rollback();
+                    transactionManagerSelf.rollback();
                     // 抛出异常
                     throw e;
                 }
