@@ -3,6 +3,7 @@ package com.lagou.edu.servlet;
 import com.lagou.edu.factory.BeanFactory;
 import com.lagou.edu.factory.BeanFactory1;
 import com.lagou.edu.factory.ProxyFactory;
+import com.lagou.edu.factory.ProxyFactorySelf;
 import com.lagou.edu.service.impl.TransferServiceImpl;
 import com.lagou.edu.utils.JsonUtils;
 import com.lagou.edu.pojo.Result;
@@ -23,8 +24,9 @@ public class TransferServlet extends HttpServlet {
 
     // 1. 实例化service层对象
 //    private TransferService transferService = new TransferServiceImpl();
-    private TransferService transferService = (TransferService) BeanFactory1.getBean("transferService");
-
+//    private TransferService transferService = (TransferService) BeanFactory1.getBean("transferService");
+// 使用动态代理去创建service来增加事务控制
+    private TransferService transferService = (TransferService) ProxyFactorySelf.getInstance().getTransactionControl(BeanFactory1.getBean("transferService"));
     // 从工厂获取委托对象（委托对象是增强了事务控制的功能）
 
     // 首先从BeanFactory获取到proxyFactory代理工厂的实例化对象
