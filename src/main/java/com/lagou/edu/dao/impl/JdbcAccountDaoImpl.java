@@ -2,9 +2,9 @@ package com.lagou.edu.dao.impl;
 
 import com.lagou.edu.pojo.Account;
 import com.lagou.edu.dao.AccountDao;
-import com.lagou.edu.utils.ConnectionUtils;
 import com.lagou.edu.utils.ConnectionUtilsSelf;
-import com.lagou.edu.utils.DruidUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,13 +13,11 @@ import java.sql.ResultSet;
 /**
  * @author 应癫
  */
+@Repository("accountDao")
 public class JdbcAccountDaoImpl implements AccountDao {
 
+    @Autowired
     private ConnectionUtilsSelf connectionUtilsSelf;
-
-    public void setConnectionUtilsSelf(ConnectionUtilsSelf connectionUtilsSelf) {
-        this.connectionUtilsSelf = connectionUtilsSelf;
-    }
 
     public void init() {
         System.out.println("初始化方法.....");

@@ -1,36 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-
-    <bean id="transferService" class="com.lagou.edu.service.impl.TransferServiceImpl">
-        <property name="AccountDao" ref="accountDao"/>
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    <context:component-scan base-package="com.lagou.edu"/>
+    <!--引入外部资源文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--第三方jar包中的bean定义到xml中，注入druid数据库连接池-->
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.drive}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
-    <!--bean的生命周期，共六种，常用的为前两种 既单例模式和原型模式 默认为单例模式-->
-    <bean id="accountDao" class="com.lagou.edu.dao.impl.JdbcAccountDaoImpl" scope="prototype">
-        <property name="ConnectionUtilsSelf" ref="connectionUtilsSelf"/>
-    </bean>
-
-<!--    动态代理类-->
-    <bean id="proxyFactorySelf" class="com.lagou.edu.factory.ProxyFactorySelf">
-        <property name="TransactionManagerSelf" ref="transactionManagerSelf"/>
-    </bean>
-
-<!--    事务控制管理类-->
-    <bean id="transactionManagerSelf" class="com.lagou.edu.utils.TransactionManagerSelf">
-        <property name="ConnectionUtilsSelf" ref="connectionUtilsSelf"/>
-    </bean>
-
-<!--    绑定线程数据库连接类-->
-    <bean id="connectionUtilsSelf" class="com.lagou.edu.utils.ConnectionUtilsSelf"/>
-
-    <!--Spring Ioc 容器实例化Bean的三种方式-->
-    <!--方式一：使用无参构造器（常用、推荐）-->
-<!--    <bean id="connectionUtils" class="com.lagou.edu.utils.ConnectionUtilsSelf"/>-->
-    <!--方式二：使用静态方法-->
-<!--    <bean id="connectionUtils" class="com.lagou.edu.factory.CreateBeanFactory" factory-method="getIntanceStatic"/>-->
-    <!--方式二：使用实例化方法-->
-    <bean id="createBeanFactory" class="com.lagou.edu.factory.CreateBeanFactory"/>
-    <bean id="connectionUtils" factory-bean="createBeanFactory" factory-method="getIntance"/>
 </beans>

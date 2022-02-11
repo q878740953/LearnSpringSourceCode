@@ -1,5 +1,8 @@
 package com.lagou.edu.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.sql.SQLException;
 
 /**
@@ -7,17 +10,11 @@ import java.sql.SQLException;
  *
  * 事务管理器类：负责手动事务的开启、提交、回滚
  */
+@Component("transactionManagerSelf")
 public class TransactionManagerSelf {
 
-//    private TransactionManagerSelf(){}
-//
-//    private static TransactionManagerSelf transactionManagerSelf = new TransactionManagerSelf();
-//
-//    public static TransactionManagerSelf getInstance(){
-//        return transactionManagerSelf;
-//    }
-
     // 使用自己写的IOC容器去获取ConnectionUtilsSelf实例化对象
+    @Autowired
     private ConnectionUtilsSelf connectionUtilsSelf;
 
     public void setConnectionUtilsSelf(ConnectionUtilsSelf connectionUtilsSelf) {

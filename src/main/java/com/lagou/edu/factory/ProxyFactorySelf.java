@@ -1,6 +1,8 @@
 package com.lagou.edu.factory;
 
 import com.lagou.edu.utils.TransactionManagerSelf;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -9,24 +11,12 @@ import java.lang.reflect.Proxy;
 /**
  * 动态代理生成工程，由于是生成工厂单例模式即可
  */
+@Component("proxyFactorySelf")
 public class ProxyFactorySelf {
 
-//    private static ProxyFactorySelf proxyFactorySelf = new ProxyFactorySelf();
-//
-//    private ProxyFactorySelf() {
-//    }
-//
-//    public static ProxyFactorySelf getInstance(){
-//        return proxyFactorySelf;
-//    }
-
     // 使用自己写的IOC容器去获取TransactionManagerSelf实例化对象
+    @Autowired
     private TransactionManagerSelf transactionManagerSelf;
-
-    public void setTransactionManagerSelf(TransactionManagerSelf transactionManagerSelf) {
-        this.transactionManagerSelf = transactionManagerSelf;
-    }
-
     /**
      * 实现事务控制的动态代理
      */
