@@ -1,14 +1,14 @@
 package com.lagou.edu.servlet;
 
-import com.lagou.edu.factory.BeanFactory;
-import com.lagou.edu.factory.BeanFactory1;
-import com.lagou.edu.factory.ProxyFactory;
 import com.lagou.edu.factory.ProxyFactorySelf;
 import com.lagou.edu.service.impl.TransferServiceImpl;
 import com.lagou.edu.utils.JsonUtils;
 import com.lagou.edu.pojo.Result;
 import com.lagou.edu.service.TransferService;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,8 +34,17 @@ public class TransferServlet extends HttpServlet {
 //    private TransferService transferService = (TransferService) proxyFactory.getJdkProxy(BeanFactory.getBean("transferService")) ;
 
     // 从beanFactory中获取代理工厂实例化对象来增强事务控制
-    private ProxyFactorySelf proxyFactorySelf = (ProxyFactorySelf) BeanFactory1.getBean("proxyFactorySelf");
-    private TransferService transferService = (TransferService) proxyFactorySelf.getTransactionControl(BeanFactory1.getBean("transferService"));
+    private TransferService transferService = null;
+    // 初始化方法
+
+    @Override
+    public void init() throws ServletException {
+        System.out.println("我被初始化了");
+        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+        ProxyFactorySelf proxyFactorySelf = (ProxyFactorySelf) webApplicationContext.getBean("proxyFactorySelf");
+        // 从beanFactory中获取代理工厂实例化对象来增强事务控制
+        transferService = (TransferService) proxyFactorySelf.getTransactionControl(webApplicationContext.getBean("transferService"));
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

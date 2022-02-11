@@ -1,13 +1,8 @@
 package com.lagou.edu.service.impl;
 
 import com.lagou.edu.dao.AccountDao;
-import com.lagou.edu.dao.impl.JdbcAccountDaoImpl;
-import com.lagou.edu.factory.BeanFactory1;
 import com.lagou.edu.pojo.Account;
 import com.lagou.edu.service.TransferService;
-import com.lagou.edu.utils.ConnectionUtils;
-import com.lagou.edu.utils.TransactionManager;
-import com.lagou.edu.utils.TransactionManagerSelf;
 
 /**
  * @author 应癫
@@ -39,7 +34,7 @@ public class TransferServiceImpl implements TransferService {
             to.setMoney(to.getMoney()+money);
 
             accountDao.updateAccountByCardNo(to);
-            int c = 1/0;
+//            int c = 1/0;
             accountDao.updateAccountByCardNo(from);
 
          // 提交事务
